@@ -50,18 +50,25 @@ export const login = async (req, res) => {
 };
 
 export const confirmEmail = async (req, res, next) => {
-  const { token } = req.params;
-  const decode = jwt.verify(token, process.env.EMAIL_TOKEN);
-  const user = await userModel.findOneAndUpdate(
-    { email: decode.email, confirmEmail: false },
-    { confirmEmail: true }
-  );
-  if (!user) {
-    return res.status(404).json({ message: "Your Email already is verified!" });
-  } else {
-    return res.redirect("https://twitter.com/i/flow/login");
-  }
-};
+    const { token } = req.params;   
+    try {
+      const decode = jwt.verify(token, process.env.EMAIL_TOKEN);
+      const user = await userModel.findOneAndUpdate(
+        { email: decode.email, confirmEmail: false },
+        { confirmEmail: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: "Your Email already is verified!" });
+      } else {
+        // console.log("Your Email is verified successfully");
+        return res.redirect("https://twitter.com/i/flow/login");
+      }
+    } catch (err) {
+      return res.status(401).json({ message: "Invalid token", error: err.message });
+    }
+  };
+  
 
 export const newConfirmEmail = async (req, res, next) => {
   const { refreshToken } = req.params;
