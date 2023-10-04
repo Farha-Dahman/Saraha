@@ -61,7 +61,6 @@ export const confirmEmail = async (req, res, next) => {
       if (!user) {
         return res.status(404).json({ message: "Your Email already is verified!" });
       } else {
-        // console.log("Your Email is verified successfully");
         return res.redirect("https://twitter.com/i/flow/login");
       }
     } catch (err) {
