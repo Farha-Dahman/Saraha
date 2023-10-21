@@ -36,14 +36,16 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (!user) {
-    return res.status(404).json({ message: "invalid data" });
+    return next( new Error("invalid data"));
   }
   if (!user.confirmEmail) {
-    return res.status(404).json({ message: "Plz confirm your email" });
+    return next( new Error("Plz confirm your email"));
+    // return res.status(404).json({ message: "Plz confirm your email" });
   }
   const match = bcrypt.compareSync(password, user.password);
   if (!match) {
-    return res.status(404).json({ message: "invalid data" });
+    return next( new Error( "invalid data"));
+    // return res.status(404).json({ message: "invalid data" });
   }
   const token = jwt.sign({ id: user._id }, process.env.LOGIN_SIGNATURE);
   return res.status(200).json({ message: "success", token });
@@ -59,12 +61,14 @@ export const confirmEmail = async (req, res, next) => {
       );
 
       if (!user) {
-        return res.status(404).json({ message: "Your Email already is verified!" });
+        return next( new Error("Your Email already is verified!"));
+        // return res.status(404).json({ message: "Your Email already is verified!" });
       } else {
         return res.redirect("https://twitter.com/i/flow/login");
       }
     } catch (err) {
-      return res.status(401).json({ message: "Invalid token", error: err.message });
+       return next( new Error("Invalid token"));
+    //   return res.status(401).json({ message: "Invalid token", error: err.message });
     }
   };
   
@@ -83,7 +87,8 @@ export const newConfirmEmail = async (req, res, next) => {
     { confirmEmail: true }
   );
   if (!user) {
-    return res.status(404).json({ message: "Your Email already is verified!" });
+    return next( new Error("Your Email already is verified!"));
+    // return res.status(404).json({ message: "Your Email already is verified!" });
   } else {
     return res.redirect("https://twitter.com/i/flow/login");
   }

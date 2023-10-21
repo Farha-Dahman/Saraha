@@ -23,6 +23,15 @@ const userSchema = new Schema(
       default: "Male",
       enum: ["Male", "Female"],
     },
+    profilePicture: {
+      type: Object,
+    },
+    cover: {
+      type: [String],
+    },
+    file: {
+      type: String,
+    }
   },
   {
     timestamps: true,
