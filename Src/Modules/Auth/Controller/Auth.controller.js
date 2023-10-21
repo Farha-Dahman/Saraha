@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import SendEmail from "../../../Services/SendEmail.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { userName, email, password, gender } = req.body;
   const user = await userModel.findOne({ email });
   const token = jwt.sign({ email }, process.env.EMAIL_TOKEN, {
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
   return res.status(201).json({ message: "success", user: createUser._id });
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (!user) {
