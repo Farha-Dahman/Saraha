@@ -5,9 +5,16 @@ import { validation } from "../../Middleware/validation.js";
 import { loginSchema, signupSchema } from "./Auth.validation.js";
 const app = express();
 
-app.post("/signup", validation(signupSchema), asyncHandler(AuthController.signup));
+app.post(
+  "/signup",
+  validation(signupSchema),
+  asyncHandler(AuthController.signup)
+);
 app.post("/login", validation(loginSchema), asyncHandler(AuthController.login));
 app.put("/confirmEmail/:token", asyncHandler(AuthController.confirmEmail));
-app.put("/newConfirmEmail/:refreshToken", asyncHandler(AuthController.newConfirmEmail));
+app.put(
+  "/newConfirmEmail/:refreshToken",
+  asyncHandler(AuthController.newConfirmEmail)
+);
 
 export default app;

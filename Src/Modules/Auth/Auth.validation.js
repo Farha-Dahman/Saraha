@@ -8,7 +8,7 @@ export const signupSchema = {
     password: generalFelids.password,
     cPassword: joi.string().valid(joi.ref("password")).required().messages({
       "any.only": "confirm password is not same as password",
-      "any.required":"confirm password is required",
+      "any.required": "confirm password is required",
     }),
     gender: joi.string().valid("Male", "Female").messages({
       "any.only": "gender must be one of [ Male , Female ]",

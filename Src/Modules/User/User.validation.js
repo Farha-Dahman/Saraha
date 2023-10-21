@@ -16,5 +16,5 @@ export const updatePassword = {
 export const sharedProfile = {
   params: joi.object({
     id: generalFelids.id,
-  })
-}
+  }),
+};

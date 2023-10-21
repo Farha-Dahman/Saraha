@@ -2,13 +2,13 @@ import joi from "joi";
 import { Types } from "mongoose";
 
 const dataMethods = ["body", "query", "headers", "params", "file"];
-const validationObjectID = (value, helper)=> {
-  if(Types.ObjectId.isValid(value)){
+const validationObjectID = (value, helper) => {
+  if (Types.ObjectId.isValid(value)) {
     return value;
   } else {
-    return helper.error('any.custom', { message: 'Invalid ObjectId' });
+    return helper.error("any.custom", { message: "Invalid ObjectId" });
   }
-}
+};
 export const generalFelids = {
   id: joi.string().custom(validationObjectID).required(),
   email: joi.string().email().required().min(5).messages({
@@ -28,8 +28,8 @@ export const generalFelids = {
     filename: joi.string().required(),
     path: joi.string().required(),
     size: joi.number().positive().required(),
-  })
-}
+  }),
+};
 
 export const validation = (schema) => {
   return (req, res, next) => {

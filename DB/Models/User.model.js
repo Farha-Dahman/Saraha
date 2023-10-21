@@ -31,7 +31,7 @@ const userSchema = new Schema(
     },
     file: {
       type: String,
-    }
+    },
   },
   {
     timestamps: true,
